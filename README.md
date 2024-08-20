@@ -3,6 +3,7 @@ Correlating searches from ripgrep for reverse engineering
 
 # Requirements
 Install: [RipGrep](https://github.com/BurntSushi/ripgrep)
+
 *Just find your desired version from the releases section.*
 
 # Usage
