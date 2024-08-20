@@ -51,6 +51,9 @@ while getopts 'r:p:s:o:h' OPTION; do
     h)
       usage
       ;;
+    *)
+      usage
+      ;;
   esac
 done
 
@@ -61,12 +64,12 @@ then
 	exit 1
 fi
 
-
 if [[ ! $(echo "$rgPath" | grep -E '/$') ]]
 then
 	rgPath=$(echo "${rgPath}/")
 fi
 
+# Convert the search terms to an array we can loop over.
 IFS=',' read -r -a searchArray <<< "$search"
 
 for s in "${searchArray[@]}"
@@ -74,8 +77,10 @@ do
 	"${rgPath}"rg -luuui  "$s" "${sPath}"/* >> /tmp/searchesInitial.txt
 done
 
+
 #cat "/tmp/searchesInitial.txt" | sort | uniq -d >> "$output"
 
+# Obtains the duplicated results that are greater or equal to the number of items in the array. This is what gives us the results that are applicable to all search terms.
 cat "/tmp/searchesInitial.txt" | sort | uniq -c | awk -v reps="${#searchArray[@]}" '$1 >= reps {print $2}' >> "$output"
 
 #cat "/tmp/searchesInitial.txt" | awk -v reps="${#searchArray[@]}" '{ count[$0]++ } END { for (file in count) if (count[file] >= reps) print file }' > "$output"
