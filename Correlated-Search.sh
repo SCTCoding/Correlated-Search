@@ -23,7 +23,8 @@ Options:
   -s '<searches>'        Comma-separated list of search terms. (Required)
                          Example: 'term1, term2' BE SURE: to quote strings with spaces.
   -o <output_file>       Path to the output file where results will be saved. (Required)
-  -g '<grep search refinement>' This allows you further refine your search output with an additional layer of grep search. Specify as: 'grep_arguments, search_term'
+  -g '<grep search refinement>' This allows you further refine your search output with an additional layer of grep search. 
+  				Specify as: 'grep_arguments, search_term'
   -h                     Display this help message and exit.
 
 Examples:
