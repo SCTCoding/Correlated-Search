@@ -23,6 +23,7 @@ Options:
   -s '<searches>'        Comma-separated list of search terms. (Required)
                          Example: 'term1, term2' BE SURE: to quote strings with spaces.
   -o <output_file>       Path to the output file where results will be saved. (Required)
+  -g '<grep search refinement>' This allows you further refine your search output with an additional layer of grep search. Specify as: 'grep_arguments, search_term'
   -h                     Display this help message and exit.
 
 Examples:
@@ -34,7 +35,7 @@ EOF
   exit 1
 }
 
-while getopts 'r:p:s:o:h' OPTION; do
+while getopts 'r:p:s:o:g:h' OPTION; do
   case "$OPTION" in
     r)
       rgPath="$OPTARG"
@@ -47,6 +48,9 @@ while getopts 'r:p:s:o:h' OPTION; do
       ;;
     o)
       output="$OPTARG"
+      ;;
+    g)
+      grepSearch="$OPTARG"
       ;;
     h)
       usage
@@ -77,6 +81,20 @@ do
 	"${rgPath}"rg -luuui  "$s" "${sPath}"/* >> /tmp/searchesInitial.txt
 done
 
+if [[ ! -z $grepSearch ]]
+then
+  grepArgs=$(echo "$grepSearch" | awk -F ', ' '{print $1}')
+  grepTerm=$(echo "$grepSearch" | awk -F ', ' '{print $2}')
+  if [[ -z $grepTerm ]]
+  then
+    echo "If you are going to use grep you must provide a search term."
+    exit 1
+  fi
+
+  mv /tmp/searchesInitial.txt /tmp/searchesPreInitial.txt
+  grep $grepArgs $grepTerm /tmp/searchesPreInitial.txt > /tmp/searchesInitial.txt
+  rm /tmp/searchesPreInitial.txt
+fi
 
 #cat "/tmp/searchesInitial.txt" | sort | uniq -d >> "$output"
 
