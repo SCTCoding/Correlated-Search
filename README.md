@@ -8,3 +8,7 @@ Install: [RipGrep](https://github.com/BurntSushi/ripgrep)
 
 # Usage
 This tool is designed to tell you what files contain multiple different search terms all together. This can be helpful if you are reverse engineering and you are looking for specific functions. Often you will be trying to find where some feature is defined and using this will let you find the most likely candidates.
+
+# New Features
+## 03-08-2025
+Added the option to refine the ripgrep results further with a grep search. For example filtering out files with the wrong extension. Just gives some more flexibility.
