@@ -100,7 +100,9 @@ fi
 #cat "/tmp/searchesInitial.txt" | sort | uniq -d >> "$output"
 
 # Obtains the duplicated results that are greater or equal to the number of items in the array. This is what gives us the results that are applicable to all search terms.
-cat "/tmp/searchesInitial.txt" | sort | uniq -c | awk -v reps="${#searchArray[@]}" '$1 >= reps {print $2}' >> "$output"
+#cat "/tmp/searchesInitial.txt" | sort | uniq -c | awk -v reps="${#searchArray[@]}" '$1 >= reps {print $2}' >> "$output"
+
+sort /tmp/searchesInitial.txt | uniq -c | awk -v reps="${#searchArray[@]}" '$1 >= reps { $1=""; sub(/^ +/, ""); print }' >> "$output"
 
 #cat "/tmp/searchesInitial.txt" | awk -v reps="${#searchArray[@]}" '{ count[$0]++ } END { for (file in count) if (count[file] >= reps) print file }' > "$output"
 
